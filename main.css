@@ -1,0 +1,15 @@
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+}
+
+.collapser {
+  display: flex;
+  align-content: flex-end;
+}
+
+.filters {
+  padding: 4px;
+}

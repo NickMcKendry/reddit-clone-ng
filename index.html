@@ -1,13 +1,173 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Angular Reddit Clone</title>
-  </head>
-  <body>
-    <script src="/node_modules/angular/angular.min.js"></script>
+<html ng-app="app">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="main.css">
+
+  <title>Angular Reddit Clone</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1>Reddit Clone (now with angular)</h1>
+    </div>
+
+    <br />
+    <addpost></addpost>
+  </div>
+
+  <script src="/node_modules/angular/angular.min.js"></script>
+
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="app.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    angular.module("app", [])
+      .component("addpost", {
+        controller: function() {
+          vm = this
+
+          vm.$onInit = function() {
+            vm.postForm = false
+            vm.commentForm = false
+            vm.posts = [{
+                title: 'fozz',
+                author: 'Nick',
+                img: 'https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.stancenation.com%2Fwp-content%2Fuploads%2F2014%2F05%2Ffull.jpg&f=1',
+                desc: 'DOPE',
+                votes: 10,
+                date: Date(),
+                comments: [
+                  {text: 'Dope'}
+                ]
+              },
+              {
+                title: 'fozz',
+                author: 'Nick',
+                img: 'https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.stancenation.com%2Fwp-content%2Fuploads%2F2014%2F05%2Ffull.jpg&f=1',
+                desc: 'DOPE',
+                votes: 100,
+                date: Date(),
+                comments: [
+                  {text: 'Nice'}
+                ]
+
+              }
+            ]
+            // vm.comments = []
+          }
+          vm.addPost = function() {
+            console.log('clicked');
+            vm.post.votes = 0
+            vm.post.date = Date()
+            vm.post.comments = []
+            vm.posts.push(vm.post)
+            delete vm.post
+          }
+
+          vm.showAddPost = function() {
+            console.log(vm.postForm);
+            if(!vm.postForm) {
+              vm.postForm = true
+            } else {
+              vm.postForm = false
+            }
+          }
+
+          vm.showAddComment = function(post) {
+            console.log(vm.postForm);
+            if(!vm.posts[vm.posts.indexOf(post)].showComment) {
+              vm.posts[vm.posts.indexOf(post)].showComment = true
+            } else {
+              vm.posts[vm.posts.indexOf(post)].showComment = false
+            }
+          }
+
+          vm.upVote = function(e, post) {
+            e.preventDefault()
+            post.votes++
+          }
+          vm.downVote = function(e, post) {
+            e.preventDefault()
+            if (post.votes >= 1) {
+              post.votes--
+            }
+          }
+          vm.addComment = function(post, comment) {
+            console.log(comment)
+            vm.posts[vm.posts.indexOf(post)].comments.push({text: comment})
+          }
+
+        },
+
+
+        template: `
+          <div class="form-inline filters">
+            <input type="text" class="form-control input-sm col-md-6" placeholder="search..." ng-model="searchTitle"></input>
+            <select class="form-control col-md-6" style="margin-left: 10px;">
+              <option>Sort by: Votes</option>
+              <option>Sort by: Date</option>
+              </select>
+              </div>
+            <button class="btn-lg btn-primary" type="button" ng-click="$ctrl.showAddPost()" style="
+            margin-left: 38.7em;">
+              Add a new post!
+            </button>
+              <div  id="newpost" ng-show="$ctrl.postForm">
+              <br />
+                <form class="form-group" ng-submit="$ctrl.addPost()" ng-show="$ctrl.postForm">
+                  <input type="text" class="input-group" placeholder="Add a title" ng-model="$ctrl.post.title" width="1200" required="true"  /><br />
+                  <input type="text" class="input-group" placeholder="Author Name" ng-model="$ctrl.post.author" width="1200" required="true"/><br />
+                  <input type="text" class="input-group" placeholder="Add a Image URL" ng-model="$ctrl.post.img" width="1200"required="true"/><br />
+                  <input type="textarea" class="input-group" placeholder="Add a description" ng-model="$ctrl.post.desc" width="1200" required="true"/><br />
+                  <input ng-click="$ctrl.addPost" type="submit" class="btn btn-warning "  value="Create New Post" />
+                </form>
+                </div>
+                <br />
+                <div ng-repeat="post in $ctrl.posts | filter : searchTitle | orderBy : '-votes'" class="well">
+                  <h2>{{post.title}}</h2>
+                  <div class="container">
+                    <img ng-src="{{post.img}}" alt="post-image" class="col-md-3"/>
+                    <h4>{{post.desc}}</h4>
+                    <a href="#" ng-click="$ctrl.upVote($event, post)">⬆️</a>
+                    <a href="#" ng-click="$ctrl.downVote($event, post)">⬇️</a>
+                    <p>{{post.votes}}</p>
+                    <p>{{post.date}}</p>
+                    <br />
+                    <p>Author: {{post.author}}</p>
+                    <a class="btn btn-success" type="button" ng-click="$ctrl.showAddComment(post)">
+                      {{ post.comments.length }} Comments
+                    </a>
+                    <div class="commentBox" ng-show="post.showComment">
+                      <form ng-submit="$ctrl.addComment(post, comment)" onSubmit="this.reset()" >
+                        <input type="text" class="input-group-sm" placeholder="Comment..." ng-model="comment"></input>
+                        <input  type="submit" class="btn btn-info" value="Add comment"></input>
+
+                      </form>
+
+                    <div ng-repeat="comment in post.comments">
+                      <h6>{{comment.text}}</h6>
+                    </div>
+                    </div>
 
 
 
-  </body>
+
+
+
+                  </div>
+                  <a href="#" ng-click="$ctrl.deleteItem($event, item)">❌</a>
+                </h3>
+                </div>
+
+          `
+
+      })
+  </script>
+
+</body>
+
 </html>
