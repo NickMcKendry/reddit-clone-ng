@@ -1,0 +1,57 @@
+  <div class="form-inline filters">
+    <input type="text" class="form-control input-sm col-md-6" placeholder="search..." ng-model="searchTitle"></input>
+    <select class="form-control col-md-6" style="margin-left: 10px;">
+      <option>Sort by: Votes</option>
+      <option>Sort by: Date</option>
+      </select>
+      </div>
+    <button class="btn-lg btn-primary" type="button" ng-click="$ctrl.showAddPost()" style="
+    margin-left: 38.7em;">
+      Add a new post!
+    </button>
+      <div  id="newpost" ng-show="$ctrl.postForm">
+      <br />
+        <form class="form-group" ng-submit="$ctrl.addPost()" ng-show="$ctrl.postForm">
+          <input type="text" class="input-group" placeholder="Add a title" ng-model="$ctrl.post.title" width="1200" required="true"  /><br />
+          <input type="text" class="input-group" placeholder="Author Name" ng-model="$ctrl.post.author" width="1200" required="true"/><br />
+          <input type="text" class="input-group" placeholder="Add a Image URL" ng-model="$ctrl.post.img" width="1200"required="true"/><br />
+          <input type="textarea" class="input-group" placeholder="Add a description" ng-model="$ctrl.post.desc" width="1200" required="true"/><br />
+          <input ng-click="$ctrl.addPost" type="submit" class="btn btn-warning "  value="Create New Post" />
+        </form>
+        </div>
+        <br />
+        <div ng-repeat="post in $ctrl.posts | filter : searchTitle | orderBy : '-votes'" class="well">
+          <h2>{{post.title}}</h2>
+          <div class="container">
+            <img ng-src="{{post.img}}" alt="post-image" class="col-md-3"/>
+            <h4>{{post.desc}}</h4>
+            <a href="#" ng-click="$ctrl.upVote($event, post)">⬆️</a>
+            <a href="#" ng-click="$ctrl.downVote($event, post)">⬇️</a>
+            <p>{{post.votes}}</p>
+            <p>{{post.date}}</p>
+            <br />
+            <p>Author: {{post.author}}</p>
+            <a class="btn btn-success" type="button" ng-click="$ctrl.showAddComment(post)">
+              {{ post.comments.length }} Comments
+            </a>
+            <div class="commentBox" ng-show="post.showComment">
+              <form ng-submit="$ctrl.addComment(post, comment)" onSubmit="this.reset()" >
+                <input type="text" class="input-group-sm" placeholder="Comment..." ng-model="comment"></input>
+                <input  type="submit" class="btn btn-info" value="Add comment"></input>
+
+              </form>
+
+            <div ng-repeat="comment in post.comments">
+              <h6>{{comment.text}}</h6>
+            </div>
+            </div>
+
+
+
+
+
+
+          </div>
+          <a href="#" ng-click="$ctrl.deleteItem($event, item)">❌</a>
+        </h3>
+        </div>
