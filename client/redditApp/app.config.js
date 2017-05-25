@@ -26,7 +26,8 @@
       .state({
         name: 'edit',
         url: '/:id/edit',
-        component: 'edit'
+        component: 'edit',
+        params: {post: {}}
       })
 
 

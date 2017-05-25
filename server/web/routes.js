@@ -9,6 +9,7 @@ router.get('/', (req, res, next) => {
     .catch(err => next(err))
 })
 
+
 router.post('/', (req, res, next) => {
   console.log('POST');
   knex('post')
@@ -25,6 +26,17 @@ router.delete('/:id', (req, res, next) => {
   .del()
   .where({id: req.params.id})
   .then(post => res.end())
+  .catch(err => next(err))
+})
+
+router.patch('/:id', (req, res, next) => {
+  console.log('PATCH', req.params.id);
+  console.log("RB", req.body);
+  knex('post')
+  .update(req.body)
+  .where({id: req.params.id})
+  .returning('*')
+  .then(post => res.json(post[0]))
   .catch(err => next(err))
 })
 

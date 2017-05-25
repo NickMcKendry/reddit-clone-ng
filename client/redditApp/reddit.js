@@ -10,7 +10,7 @@ angular.module("app")
       vm.$onInit = function() {
         console.log('init ');
         vm.commentForm = false
-        $http.get("http://localhost:8082/api/posts")
+        $http.get("http://localhost:8090/api/posts")
         .then(function(response, post) {
 
           console.log('then hit');
@@ -22,7 +22,7 @@ angular.module("app")
         vm.deletePost = function(e, post) {
           e.preventDefault()
           let postId = vm.posts[vm.posts.indexOf(post)].id
-          $http.delete("http://localhost:8082/api/posts/" + postId)
+          $http.delete("http://localhost:8090/api/posts/" + postId)
           .then(function(response) {
             vm.posts.splice(vm.posts.indexOf(post), 1)
           })

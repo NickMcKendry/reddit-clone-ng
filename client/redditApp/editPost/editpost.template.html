@@ -1,0 +1,20 @@
+<div  class="container">
+  <br />
+  <div class="row">
+    <form class="form-group" ng-submit="$ctrl.updatePost($ctrl.post)" >
+
+    <input type="text" class="input-group col-md-12"  ng-model="$ctrl.post.title" width="1200" required="true"  /><br />
+
+    <input type="text" class="input-group col-md-12" value="{{$ctrl.post.author}}" ng-model="$ctrl.post.author" width="1200" required="true"/><br />
+
+    <input type="text" class="input-group col-md-12" value="{{$ctrl.post.image}}" ng-model="$ctrl.post.image" width="1200"required="true"/><br />
+
+    <input type="textarea" class="input-group col-md-12" value="{{$ctrl.post.description}}" ng-model="$ctrl.post.description" width="1200" required="true"/><br />
+
+
+
+    <input type="submit" class="btn btn-primary "  value="Update Post" />
+
+      </form>
+    </div>
+  </div>

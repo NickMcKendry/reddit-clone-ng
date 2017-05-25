@@ -5,7 +5,7 @@ const cors =  require('cors')
 
 const app = express()
 app.use(cors())
-const port = process.env.PORT || 8082
+const port = process.env.PORT || 8090
 
 app.use(bodyParser.json())
 app.use('/api/posts', webRoutes)
