@@ -1,0 +1,18 @@
+<div  class="container">
+<br />
+  <form class="form-group" ng-submit="$ctrl.addPost()" >
+
+    <input type="text" class="input-group" placeholder="Add a title" ng-model="$ctrl.post.title" width="1200" required="true"  /><br />
+
+    <input type="text" class="input-group" placeholder="Author Name" ng-model="$ctrl.post.author" width="1200" required="true"/><br />
+
+    <input type="text" class="input-group" placeholder="Add a Image URL" ng-model="$ctrl.post.image" width="1200"required="true"/><br />
+
+    <input type="textarea" class="input-group" placeholder="Add a description" ng-model="$ctrl.post.description" width="1200" required="true"/><br />
+
+    
+
+    <input ng-click="$ctrl.addPost" type="submit" class="btn btn-warning "  value="Create New Post" />
+
+  </form>
+  </div>
